@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>שאלון אפיון לקוח — LiorEdits</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --surface2: #f0ede7;
+      --border: #e0dbd0;
+      --accent: #1a1a1a;
+      --accent2: #c8a96e;
+      --accent3: #2199c4;
+      --text: #1a1a1a;
+      --muted: #7a7060;
+      --label: #3a3530;
+      --danger: #c0392b;
+      --tag-bg: rgba(200, 169, 110, 0.12);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Heebo', sans-serif;
+      min-height: 100vh;
+      direction: rtl;
+    }
+
+    /* Sticky header */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 245, 240, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+
+    .sticky-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .progress-wrap {
+      flex: 1;
+    }
+
+    .prog-track {
+      height: 3px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent3), var(--accent2));
+      border-radius: 100px;
+      width: 0%;
+      transition: width 0.4s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .prog-pct {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    /* Main layout */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 120px;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 64px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 40px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--accent2);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(200, 169, 110, 0.3);
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent3);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 560px;
+      font-weight: 300;
+    }
+
+    .hero-note {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(33, 153, 196, 0.07);
+      border-right: 3px solid var(--accent3);
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--accent3);
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 60px;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: up 0.5s ease forwards;
+    }
+
+    .section:nth-child(1) {
+      animation-delay: .04s
+    }
+
+    .section:nth-child(2) {
+      animation-delay: .08s
+    }
+
+    .section:nth-child(3) {
+      animation-delay: .12s
+    }
+
+    .section:nth-child(4) {
+      animation-delay: .16s
+    }
+
+    .section:nth-child(5) {
+      animation-delay: .20s
+    }
+
+    .section:nth-child(6) {
+      animation-delay: .24s
+    }
+
+    .section:nth-child(7) {
+      animation-delay: .28s
+    }
+
+    .section:nth-child(8) {
+      animation-delay: .32s
+    }
+
+    @keyframes up {
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sec-num {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: var(--accent2);
+      background: var(--tag-bg);
+      border: 1px solid rgba(200, 169, 110, 0.3);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+
+    .sec-title {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .sec-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    /* Fields */
+    .field {
+      margin-bottom: 28px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--label);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .req {
+      color: var(--danger);
+      margin-right: 2px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 8px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .example {
+      font-size: 12px;
+      color: var(--accent3);
+      font-weight: 500;
+      margin-bottom: 8px;
+      line-height: 1.6;
+      background: rgba(33, 153, 196, 0.06);
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-right: 2px solid var(--accent3);
+    }
+
+    .example::before {
+      content: '💡 לדוגמה: ';
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-family: 'Heebo', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      direction: rtl;
+      text-align: right;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent3);
+      box-shadow: 0 0 0 3px rgba(33, 153, 196, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.7;
+    }
+
+    select option {
+      direction: rtl;
+    }
+
+    /* Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media(max-width:540px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Choices */
+    .radio-group,
+    .check-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio-group.wrap,
+    .check-group.wrap {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 16px;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      font-size: 14px;
+      color: var(--muted);
+      user-select: none;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .choice:hover {
+      border-color: rgba(33, 153, 196, 0.4);
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .choice.selected {
+      border-color: var(--accent3);
+      background: rgba(33, 153, 196, 0.07);
+      color: var(--accent3);
+    }
+
+    .choice input {
+      display: none;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      transition: border-color 0.18s, background 0.18s;
+    }
+
+    .choice.selected .dot {
+      border-color: var(--accent3);
+      background: var(--accent3);
+    }
+
+    .square {
+      border-radius: 4px;
+    }
+
+    .square.selected {
+      border-color: var(--accent3);
+      background: var(--accent3);
+    }
+
+    .check-icon {
+      font-size: 9px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Slider */
+    .slider-display {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--accent3);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      appearance: none;
+      background: var(--border);
+      border-radius: 100px;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent3);
+      box-shadow: 0 2px 8px rgba(33, 153, 196, 0.35);
+      cursor: pointer;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Separator text */
+    .or-divider {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 8px 0;
+      font-style: italic;
+    }
+
+    /* Submit */
+    .submit-sec {
+      padding-top: 48px;
+      border-top: 2px solid var(--accent);
+      margin-top: 64px;
+    }
+
+    .submit-sec h2 {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .submit-sec p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: white;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 16px 40px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      box-shadow: 0 4px 20px rgba(26, 26, 26, 0.2);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(26, 26, 26, 0.3);
+      background: #111;
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status-msg {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .status-msg.sending {
+      display: block;
+      background: rgba(33, 153, 196, 0.1);
+      color: var(--accent3);
+      border: 1px solid rgba(33, 153, 196, 0.25);
+    }
+
+    .status-msg.error {
+      display: block;
+      background: rgba(192, 57, 43, 0.08);
+      color: var(--danger);
+      border: 1px solid rgba(192, 57, 43, 0.25);
+    }
+
+    /* Success screen */
+    #success-screen {
+      display: none;
+      text-align: center;
+      padding: 80px 40px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      margin-top: 40px;
+    }
+
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(33, 153, 196, 0.1);
+      border: 2px solid var(--accent3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 24px;
+    }
+
+    #success-screen h2 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: var(--accent3);
+    }
+
+    #success-screen p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sticky-header">
+    <div class="sticky-inner">
+      <div class="brand">LiorEdits</div>
+      <div class="progress-wrap">
+        <div class="prog-pct" id="pct-label">0% הושלם</div>
+        <div class="prog-track">
+          <div class="prog-fill" id="prog-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="hero">
+      <div class="hero-tag">שאלון אפיון לקוח</div>
+      <h1>בוא נבין<br />את העסק שלך <em>לעומק</em></h1>
+      <p class="hero-sub">כל מה שתכתוב כאן הופך לאסטרטגיה שיווקית, תסריטים לסרטונים, וקופי למודעות — מותאם לעסק שלך
+        שמוכר ידע, ליווי או שירות אונליין. ככל שתהיה יותר ספציפי ואמיתי — התוצאות יהיו טובות יותר.</p>
+      <div class="hero-note">⏱ זמן מילוי משוער: 15–20 דקות. אין תשובות נכונות או לא נכונות — תכתוב כמו שאתה מדבר.</div>
+    </div>
+
+    <form id="mainForm">
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!-- חלק 1: פרטי בסיס                              -->
+      <!-- ══════════════════════════════════════════════ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="sec-num">01</div>
+          <div>
+            <div class="sec-title">פרטים בסיסיים</div>
+            <div class="sec-desc">מי אתה ואיפה אתה נמצא</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>שם מלא <span class="req">*</span></label>
+            <input type="text" name="full_name" placeholder="ישראל ישראלי" required />
+          </div>
+          <div class="field">
+            <label>שם העסק <span class="req">*</span></label>
+            <input type="text" name="business_name" placeholder="ישראלי שירותי אינסטלציה" required />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>ווצאפ / טלפון <span class="req">*</span></label>
+            <input type="tel" name="phone" placeholder="050-0000000" required />
+          </div>
+          <div class="field">
+            <label>אימייל <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>קישור לאינסטגרם / פייסבוק / אתר</label>
+          <input type="url" name="social_link" placeholder="https://instagram.com/yourbusiness" />
+        </div>
+
+        <div class="field">
+          <label>איפה אתה עובד עם לקוחות? <span class="req">*</span></label>
+          <div class="radio-group wrap">
+            <label class="choice"><input type="radio" name="location_type" value="online_only" /><span
+                class="dot"></span>אונליין בלבד — זום / טלפון</label>
+            <label class="choice"><input type="radio" name="location_type" value="online_and_physical" /><span
+                class="dot"></span>גם אונליין וגם פגישות</label>
+            <label class="choice"><input type="radio" name="location_type" value="physical_only" /><span
+                class="dot"></span>פגישות פיזיות בלבד</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מאיפה הלקוחות שלך? <span class="req">*</span></label>
+          <div class="radio-group wrap">
+            <label class="choice"><input type="radio" name="geo_reach" value="nationwide" /><span class="dot"></span>כל
+              הארץ</label>
+            <label class="choice"><input type="radio" name="geo_reach" value="region" /><span class="dot"></span>אזור
+              ספציפי</label>
+            <label class="choice"><input type="radio" name="geo_reach" value="international" /><span
+                class="dot"></span>גם חו"ל</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!-- חלק 2: אפיון העסק והשירות                     -->
+      <!-- ══════════════════════════════════════════════ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="sec-num">02</div>
+          <div>
+            <div class="sec-title">העסק והשירות שלך</div>
+            <div class="sec-desc">מה אתה עושה, איך, ומה הלקוח מקבל בפועל</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>תאר את העסק שלך במשפט אחד <span class="req">*</span></label>
+          <p class="hint">לא שיווקי — פשוט מה אתה עושה ולמי.</p>
+          <div class="example">עוזר לבעלי עסקים לשפר את אחוזי הסגירה שלהם ולמכור בלי להרגיש דוחפים / מלמד נשים לאכול
+            נכון ולרדת במשקל בלי דיאטות / בונה תוכן שיווקי לבעלי עסקים שרוצים להפסיק להיות תלויים במנהל סושיאל</div>
+          <input type="text" name="one_liner" placeholder="כתוב כאן..." required />
+        </div>
+
+        <div class="field">
+          <label>מה סוג השירות שלך? <span class="req">*</span></label>
+          <div class="radio-group wrap">
+            <label class="choice"><input type="radio" name="service_type" value="coaching" /><span
+                class="dot"></span>ליווי / קואצ'ינג אישי</label>
+            <label class="choice"><input type="radio" name="service_type" value="done_for_you" /><span
+                class="dot"></span>Done For You — אני עושה עבורך</label>
+            <label class="choice"><input type="radio" name="service_type" value="course" /><span class="dot"></span>קורס
+              / תוכנית קבוצתית</label>
+            <label class="choice"><input type="radio" name="service_type" value="consulting" /><span
+                class="dot"></span>ייעוץ / אסטרטגיה</label>
+            <label class="choice"><input type="radio" name="service_type" value="membership" /><span
+                class="dot"></span>מנוי / קהילה חודשית</label>
+            <label class="choice"><input type="radio" name="service_type" value="hybrid" /><span
+                class="dot"></span>שילוב של כמה</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מה השירות העיקרי שלך בפרטי פרטים? <span class="req">*</span></label>
+          <p class="hint">מה כלול? כמה מפגשים? כמה זמן? מה הלקוח עושה? מה אתה עושה? מה הוא מקבל בסוף?</p>
+          <div class="example">ליווי אישי של 10 מפגשי זום — כל פגישה 60 דקות. ניתוח הקלטות שיחות מכירה, סימולציות בזמן
+            אמת, בניית תסריט שיחה מותאם אישי + ווצאפ פתוח בין פגישות</div>
+          <textarea name="main_service" placeholder="פרט בחופשיות..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה ההצעה הכי חזקה שלך? <span class="req">*</span></label>
+          <p class="hint">מה הדבר שאתה נותן שהמתחרים שלך לא? מה הסיבה שלקוח יבחר דווקא בך?</p>
+          <div class="example">פגישת פיצוח חינם + התחייבות להמשיך ליווי בחינם אם הלקוח לא עלה ב-20% המרה / 30 יום כסף
+            בחזרה ללא שאלות / אחריות לתוצאה — אם לא ירדת 5 קג בחודש הראשון, החודש הבא חינם</div>
+          <textarea name="strongest_offer" placeholder="מה ההבטחה / ההצעה שלך?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה תחום הפעילות שלך? <span class="req">*</span></label>
+          <p class="hint">מאמן מכירות? מאמן כושר? מאמן חיים? שיווק דיגיטלי? תזונה? פסיכולוגיה? עסקים?</p>
+          <input type="text" name="industry"
+            placeholder="לדוגמה: אימון מכירות לבעלי עסקים, ליווי תזונה אונליין, שיווק דיגיטלי..." required />
+        </div>
+
+        <div class="field">
+          <label>כמה עולה השירות שלך? <span class="req">*</span></label>
+          <p class="hint">מחיר הליווי / קורס / תוכנית העיקרית. אם יש כמה מסלולים — ציין את כולם.</p>
+          <input type="text" name="pricing" placeholder="לדוגמה: 3,500 ₪ לתוכנית של 3 חודשים / 497 ₪ לחודש" required />
+        </div>
+
+        <div class="field">
+          <label>איך לקוח קונה ממך? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="choice"><input type="radio" name="sales_channel" value="discovery_call" /><span
+                class="dot"></span>שיחת גילוי / פגישת פיצוח → סגירה</label>
+            <label class="choice"><input type="radio" name="sales_channel" value="whatsapp" /><span
+                class="dot"></span>ווצאפ — כל התהליך בצ'אט</label>
+            <label class="choice"><input type="radio" name="sales_channel" value="sales_page" /><span
+                class="dot"></span>דף מכירה — קונה ישירות בלי שיחה</label>
+            <label class="choice"><input type="radio" name="sales_channel" value="webinar" /><span
+                class="dot"></span>וובינר / הרצאה → סגירה</label>
+            <label class="choice"><input type="radio" name="sales_channel" value="zoom_meeting" /><span
+                class="dot"></span>פגישת זום → הצעה → סגירה</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>כמה זמן לוקח ליד להפוך ללקוח משלם?</label>
+          <div class="radio-group wrap">
+            <label class="choice"><input type="radio" name="sales_cycle" value="same_day" /><span
+                class="dot"></span>אותו יום / שיחה</label>
+            <label class="choice"><input type="radio" name="sales_cycle" value="few_days" /><span class="dot"></span>כמה
+              ימים</label>
+            <label class="choice"><input type="radio" name="sales_cycle" value="week" /><span
+                class="dot"></span>שבוע</label>
+            <label class="choice"><input type="radio" name="sales_cycle" value="weeks" /><span class="dot"></span>2–4
+              שבועות</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מה הניסיון / הסמכה / הישגים שלך? <span class="req">*</span></label>
+          <p class="hint">שנות ניסיון, הכשרות, תוצאות שהשגת לעצמך, מספר לקוחות שליווית. מספרים אמיתיים בלבד.</p>
+          <div class="example">5 שנות ניסיון, 3 מוקדי מכירות, מעל 5 מיליון ₪ במכירות אישיות, ליוויתי 80+ בעלי עסקים
+            שהכפילו אחוזי סגירה / ירדתי 30 קג בעצמי ועכשיו מלווה 40 נשים בתהליך</div>
+          <textarea name="credentials" placeholder="מה יש לך ברקע?" required></textarea>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!-- חלק 3: קהל היעד — האוטאר המושלם              -->
+      <!-- ══════════════════════════════════════════════ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="sec-num">03</div>
+          <div>
+            <div class="sec-title">קהל היעד שלך</div>
+            <div class="sec-desc">מי הלקוח המושלם — בפרטי פרטים</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>תאר את הלקוח המושלם שלך בפרטי פרטים <span class="req">*</span></label>
+          <p class="hint">גיל, מגדר, עיסוק, הכנסה, מצב משפחתי, אורח חיים, אינסטגרם שהוא עוקב בו, פודקאסטים שהוא מאזין
+            להם, ערכים שחשובים לו. ככל שיהיה יותר ספציפי — כך נוכל לדבר אליו בדיוק.</p>
+          <div class="example">גבר, 27–42, בעל עסק דיגיטלי / פרילנסר / מנהל שמרוויח 8,000–30,000 ₪ בחודש, כבר מריץ
+            קמפיינים ומביא לידים אבל מאבד אותם בשיחת המכירה. מאמין שהמוצר שלו טוב אבל מרגיש שהוא לא יודע למכור</div>
+          <textarea name="ideal_client" placeholder="פרט כמה שיותר..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה גילאי הקהל העיקרי? <span class="req">*</span></label>
+          <input type="text" name="age_range" placeholder="לדוגמה: 25–45" required />
+        </div>
+
+        <div class="field">
+          <label>מגדר הקהל העיקרי</label>
+          <div class="radio-group wrap">
+            <label class="choice"><input type="radio" name="gender" value="men" /><span class="dot"></span>גברים
+              בעיקר</label>
+            <label class="choice"><input type="radio" name="gender" value="women" /><span class="dot"></span>נשים
+              בעיקר</label>
+            <label class="choice"><input type="radio" name="gender" value="both" /><span class="dot"></span>גם וגם
+              בשווה</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מה הסיטואציה שבה הלקוח נמצא כשהוא פוגש אותך? <span class="req">*</span></label>
+          <p class="hint">מה קרה ממש לפני שהוא ראה את המודעה שלך? מה הוא עושה ביומיום שמביא אותו לנקודה הזו? מה השבר
+            שגרם לו להחליט שהוא צריך עזרה?</p>
+          <div class="example">הוא כבר מריץ קמפיינים, יש לו לידים, אבל כל פעם שמגיע לשיחת מכירה הוא מרגיש תקוע ומאבד את
+            הלקוח. הוא ניסה קורסים ותסריטים גנריים — לא עבד. הוא מתחיל לחשוב שאולי הוא פשוט לא בנוי למכירות</div>
+          <textarea name="situation_before" placeholder="מה קורה לו ביומיום?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה הלקוח עושה / מנסה לפתור לבד לפני שמגיע אליך?</label>
+          <p class="hint">מה הוא מחפש בגוגל? באיזה תוכן הוא צורך? מה הוא מנסה לעשות בעצמו?</p>
+          <div class="example">מחפש "איך לסגור עסקאות", צופה בסרטוני יוטיוב על מכירות, מנסה לשכתב את הצ'אט שלו בווצאפ,
+            שואל את ChatGPT לתסריטי מכירה</div>
+          <textarea name="diy_attempts" placeholder="מה הוא מנסה לבד?"></textarea>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!-- חלק 4: כאבים, חסמים ודיאלוגים פנימיים        -->
+      <!-- ══════════════════════════════════════════════ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="sec-num">04</div>
+          <div>
+            <div class="sec-title">כאבים, חסמים ודיאלוגים פנימיים</div>
+            <div class="sec-desc">מה הלקוח אומר לעצמו בראש לפני שהוא קונה</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מה הכאב הכי גדול שהלקוח חווה לפני שמגיע אליך? <span class="req">*</span></label>
+          <p class="hint">לא הבעיה הטכנית — הכאב הרגשי. מה מרגיש הלקוח? מה מציק לו? מה שוחק אותו? מה גורם לו לא לישון
+            בלילה?</p>
+          <div class="example">הוא עובד קשה, מביא לידים, ואז בשיחת מכירה הכל מתפרק — הוא מרגיש לא מסוגל, כאילו המוצר שלו
+            לא מספיק טוב. הוא מסתכל על אנשים אחרים שמצליחים למכור ולא מבין למה הוא לא כמוהם</div>
+          <textarea name="main_pain" placeholder="מה הכאב האמיתי?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה הדיאלוגים הפנימיים שלו — מה הוא אומר לעצמו בראש? <span class="req">*</span></label>
+          <p class="hint">כתוב ממש כמו שהלקוח חושב. ביטויים אמיתיים בגוף ראשון — כאילו הוא מדבר לעצמו.</p>
+          <div class="example">"אני לא אוהב למכור, זה מרגיש לי מזויף" / "כבר ניסיתי כמה דברים ולא עבד לי" / "אולי פשוט
+            אין לי את זה" / "אני נחמד מדי בשביל להיות איש מכירות" / "אם ייתנו לי הנחה אסגור אותם"</div>
+          <textarea name="internal_dialogues"
+            placeholder='כתוב דיאלוגים בגוף ראשון: "אני לא...", "פוחד ש...", "אולי..."' required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה 3–5 ההתנגדויות שגורמות לו לא לקנות את השירות שלך? <span class="req">*</span></label>
+          <p class="hint">מה הוא אומר לעצמו כשמגיע לרגע הסגירה? מה עוצר אותו?</p>
+          <div class="example">
+            1. "כבר ניסיתי מאמן קודם ולא עבד לי — אולי זה אני הבעיה"<br />
+            2. "יקר לי עכשיו, אין לי כסף פנוי להשקיע"<br />
+            3. "אני לא בטוח שזה יעבוד לי — העסק שלי שונה"<br />
+            4. "צריך לחשוב על זה / להתייעץ עם השותף / הבת זוג"
+          </div>
+          <textarea name="objections" placeholder="כתוב לפחות 3 התנגדויות..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה כבר ניסה הלקוח לפני שמגיע אליך? <span class="req">*</span></label>
+          <p class="hint">פתרונות קודמים שלא עבדו — קורסים, מאמנים, ספרים, תסריטים. זה הבסיס ל"אויב המשותף" בפרסום.</p>
+          <div class="example">קורסים אונליין על מכירות, תסריטים גנריים מ-ChatGPT, ניסה לשכור איש מכירות, צפה בסרטוני
+            יוטיוב, ניסה לשכתב את ה-WhatsApp שלו</div>
+          <textarea name="previous_solutions" placeholder="מה ניסה קודם?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>למה הפתרונות הקודמים לא עבדו לו? <span class="req">*</span></label>
+          <p class="hint">מה חסר בהם? למה הם לא הביאו תוצאה? זה מה שמבדל את השירות שלך.</p>
+          <div class="example">כי קיבל ידע כללי ולא ליווי אישי מותאם. אף אחד לא שמע את ההקלטות שלו ולא אמר לו בדיוק איפה
+            הוא נופל. תסריט גנרי לא מרגיש טבעי ואז הוא לא מיישם</div>
+          <textarea name="why_failed" placeholder="למה הפתרון הקודם לא עבד?" required></textarea>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════ -->
+      <!-- חלק 5: חלומות, מטרות ורצונות                 -->
+      <!-- ══════════════════════════════════════════════ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="sec-num">05</div>
+          <div>
+            <div class="sec-title">חלומות, מטרות ורצונות</div>
+            <div class="sec-desc">לאן הלקוח רוצה להגיע — ברמה הרגשית והמעשית</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מה החיים נראים אחרי שהלקוח עובד איתך? <span class="req">*</span></label>
+          <p class="hint">לא רק "יותר כסף". מה הוא מרגיש? איך נראה היום שלו? מה השתנה לו בחיים, במערכות יחסים, בביטחון
+            העצמי?</p>
+          <div class="example">הוא נכנס לכל שיחת מכירה בביטחון, יודע בדיוק מה להגיד ומתי לשתוק. הוא מפסיק לתת הנחות,
+            ההכנסה שלו יציבה וצפויה, הוא מרגיש גאה בעצמו ובוחר את הלקוחות שבא לו לעבוד איתם</div>
+          <textarea name="dream_outcome" placeholder="איך נראית התוצאה האידיאלית?" required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה 3–5 הדברים שהלקוח הכי רוצה להשיג? <span class="req">*</span></label>
+          <p class="hint">גם מעשיים (כסף, לקוחות) וגם רגשיים (ביטחון, חופש, הכרה).</p>
+          <div class="example">
+            1. ביטחון מוחלט בשיחות מכירה — לא להרגיש "דוחף"<br />
+            2. הכנסה עקבית וצפויה כל חודש<br />
+            3. להפסיק לתת הנחות כדי לסגור<br />
+            4. חופש לבחור עם מי לעבוד<br />
+            5. להרגיש שהוא שולט בעסק — לא שהעסק שולט בו
+          </div>
+          <textarea name="top_desires" placeholder="כתוב כל מטרה בשורה חדשה..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label>מה הכי חשוב ללקוח שלך בסוף התהליך?</label>
+          <div class="radio-group wrap">
+            <label class="choice"><input type="radio" name="main_value" value="speed" /><span class="dot"></span>תוצאות
+              מהירות</label>
+            <label class="choice"><input type="radio" name="main_value" value="confidence" /><span
+                class="dot"></span>ביטחון עצמי ומיינדסט</label>
+            <label class="choice"><input type="radio" name="main_value" value="independence" /><span
+                class="dot"></span>עצמאות — לדעת לבד לנצח</label>
+            <label class="choice"><input type="radio" name="main_value" value="money" /><span class="dot"></span>עוד כסף
+              בחשבון</label>
+            <label class="choice"><input type="radio" name="main_value" value="recognition" /><span
+                class="dot"></span>הכרה ומעמד בתחום</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>מה הלקוח מרגיש כשהוא מדמיין את עצמו אחרי התהליך?</label>
+          <p class="hint">רגש אחד מרכזי — גאווה? חופש? הקלה? ביטחון? שליטה?</p>
+          <input type="text" name="core_emotion" placeholder="לדוגמה: סוף סוף שולט בעסק שלו, לא תלוי במזל..." />
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- חלק 6: מתחרים ובידול                          -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="section">
+          <div class="section-head">
+            <div class="sec-num">06</div>
+            <div>
+              <div class="sec-title">מתחרים ובידול</div>
+              <div class="sec-desc">מי עוד שם וכיצד אתה שונה</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>מי המתחרים הישירים שלך? <span class="req">*</span></label>
+            <p class="hint">אנשים שמוכרים שירות דומה לשלך. שמות, אינסטגרם, אתרים, תוכניות שמתחרות בך.</p>
+            <div class="example">@sales_coach_israel, @omri_fitness_coach, קורסים של X ו-Y, תוכנית Z שעולה 2,000 ₪
+              ומפרסמת הרבה</div>
+            <textarea name="competitors" placeholder="שמות מתחרים, לינקים, עמודים שאתה מכיר..." required></textarea>
+          </div>
+
+          <div class="field">
+            <label>מה המתחרים עושים לא טוב? על מה לקוחות מתלוננים עליהם? <span class="req">*</span></label>
+            <p class="hint">מה שמע מלקוחות שעברו אצלהם? מה חסר להם? מה הם מבטיחים ולא מקיימים?</p>
+            <div class="example">נותנים ידע תיאורטי בלי ליווי אישי, אין מענה בין הפגישות, קורס מוקלט בלי פידבק אמיתי,
+              מבטיחים הרבה ולא מתחייבים לתוצאה</div>
+            <textarea name="competitor_weaknesses" placeholder="מה לא טוב אצלם?" required></textarea>
+          </div>
+
+          <div class="field">
+            <label>מה מבדל אותך מכולם? <span class="req">*</span></label>
+            <p class="hint">לא "אני יותר טוב" — תהיה קונקרטי. מה אתה מתחייב אליו? מה אתה עושה שאחרים לא?</p>
+            <div class="example">אני היחיד שמתחייב לתוצאות — אם לא עלית ב-20% המרה אני ממשיך בחינם. אני שומע את ההקלטות
+              האמיתיות שלך ונותן פידבק ספציפי — לא תסריט גנרי שמרגיש מזויף</div>
+            <textarea name="differentiator" placeholder="מה הייחוד שלך?" required></textarea>
+          </div>
+
+          <div class="field">
+            <label>ציין 3–5 עמודי אינסטגרם / מודעות של מתחרים שראית</label>
+            <p class="hint">כולל קישורים, @handles, או תיאור של פרסומות שראית שנראו דומות לשלך.</p>
+            <textarea name="competitor_ads" placeholder="@handle_1, @handle_2, לינקים, תיאור מה ראית..."></textarea>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- חלק 7: שיווק נוכחי ולידים                    -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="section">
+          <div class="section-head">
+            <div class="sec-num">07</div>
+            <div>
+              <div class="sec-title">מצב שיווקי נוכחי</div>
+              <div class="sec-desc">מאיפה מגיעים הלקוחות עכשיו ומה עבד / לא עבד</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>מאיפה מגיעים רוב הלקוחות שלך כיום? <span class="req">*</span></label>
+            <div class="check-group">
+              <label class="choice"><input type="checkbox" name="lead_sources" value="referrals" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>המלצות / פה לאוזן</label>
+              <label class="choice"><input type="checkbox" name="lead_sources" value="meta" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>פייסבוק / אינסטגרם ממומן</label>
+              <label class="choice"><input type="checkbox" name="lead_sources" value="organic_social" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>תוכן אורגני (ריילס, פוסטים, סטוריז)</label>
+              <label class="choice"><input type="checkbox" name="lead_sources" value="google" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>גוגל (אורגני או ממומן)</label>
+              <label class="choice"><input type="checkbox" name="lead_sources" value="podcast_youtube" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>פודקאסט / יוטיוב</label>
+              <label class="choice"><input type="checkbox" name="lead_sources" value="email_list" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>רשימת תפוצה / ניוזלטר</label>
+              <label class="choice"><input type="checkbox" name="lead_sources" value="nothing_structured" /><span
+                  class="dot square"><span class="check-icon">✓</span></span>כלום מסודר — רק המלצות</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>האם הרצת בעבר מודעות ממומנות (Meta / Google)?</label>
+            <div class="radio-group wrap">
+              <label class="choice"><input type="radio" name="ads_history" value="yes_good" /><span
+                  class="dot"></span>כן — עבד טוב</label>
+              <label class="choice"><input type="radio" name="ads_history" value="yes_bad" /><span class="dot"></span>כן
+                — לא עבד</label>
+              <label class="choice"><input type="radio" name="ads_history" value="never" /><span
+                  class="dot"></span>מעולם לא</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>אם הרצת קמפיינים — מה קרה? מה היו התוצאות?</label>
+            <p class="hint">כמה הוצאת, כמה לידים קיבלת, מה עלות הליד הייתה, מה לא עבד, האם הלידים היו איכותיים.</p>
+            <textarea name="ads_history_detail" placeholder="שתף מה קרה..."></textarea>
+          </div>
+
+          <div class="field">
+            <label>כמה לידים / פניות אתה מקבל בחודש כיום? <span class="req">*</span></label>
+            <input type="text" name="current_leads_per_month" placeholder="לדוגמה: 15–20 פניות בחודש" required />
+          </div>
+
+          <div class="field">
+            <label>מה אחוז הסגירה שלך כיום (פניות שהופכות ללקוחות משלמים)?</label>
+            <input type="text" name="current_close_rate" placeholder="לדוגמה: 20%, 1 מתוך 5 שיחות..." />
+          </div>
+
+          <div class="field">
+            <label>כמה לקוחות חדשים בחודש אתה מכוון להגיע? <span class="req">*</span></label>
+            <input type="number" name="lead_goal" placeholder="לדוגמה: 8 לקוחות חדשים" min="1" required />
+          </div>
+
+          <div class="field">
+            <label>האם יש לך כבר דף נחיתה / ווב-סייט / עמוד מכירה?</label>
+            <div class="radio-group wrap">
+              <label class="choice"><input type="radio" name="has_landing_page" value="yes" /><span
+                  class="dot"></span>כן, יש</label>
+              <label class="choice"><input type="radio" name="has_landing_page" value="basic" /><span
+                  class="dot"></span>יש משהו בסיסי</label>
+              <label class="choice"><input type="radio" name="has_landing_page" value="no" /><span
+                  class="dot"></span>אין — הכל דרך ווצאפ / DM</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>תקציב פרסום חודשי שאתה מוכן להשקיע במודעות <span class="req">*</span></label>
+            <div class="slider-display" id="budgetDisplay">₪1,500 / חודש</div>
+            <input type="range" name="ad_budget" min="500" max="15000" step="500" value="1500" id="budgetSlider" />
+            <div class="slider-labels"><span>₪500</span><span>₪15,000+</span></div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- חלק 8: תוכן ומיתוג                           -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="section">
+          <div class="section-head">
+            <div class="sec-num">08</div>
+            <div>
+              <div class="sec-title">תוכן, מיתוג וסגנון</div>
+              <div class="sec-desc">איזה וייב צריכות המודעות והתוכן שלך</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>מה הטון שאתה רוצה שהמודעות שלך ישדרו? <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="choice"><input type="radio" name="brand_tone" value="authoritative" /><span
+                  class="dot"></span>סמכותי — "אני המומחה, יש לי את התוצאות, תאמין לי"</label>
+              <label class="choice"><input type="radio" name="brand_tone" value="friendly" /><span
+                  class="dot"></span>ידידותי ואמפתי — "אני מבין אותך, עברתי את זה בעצמי"</label>
+              <label class="choice"><input type="radio" name="brand_tone" value="direct" /><span class="dot"></span>ישיר
+                וחד — "בלי שטויות, הנה מה שצריך לעשות"</label>
+              <label class="choice"><input type="radio" name="brand_tone" value="educational" /><span
+                  class="dot"></span>חינוכי — "תלמד ממני משהו חדש בכל סרטון"</label>
+              <label class="choice"><input type="radio" name="brand_tone" value="storytelling" /><span
+                  class="dot"></span>סיפורים ותוצאות — "תכיר את אדיר שהכפיל את המכירות..."</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>האם אתה מוכן להופיע מול מצלמה בסרטונים? <span class="req">*</span></label>
+            <div class="radio-group wrap">
+              <label class="choice"><input type="radio" name="on_camera" value="yes" /><span class="dot"></span>כן,
+                בשמחה</label>
+              <label class="choice"><input type="radio" name="on_camera" value="maybe" /><span class="dot"></span>אולי,
+                עם הכוונה</label>
+              <label class="choice"><input type="radio" name="on_camera" value="no" /><span class="dot"></span>מעדיף
+                לא</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>האם יש לך תוכן קיים — סרטונים, פוסטים, ריילס?</label>
+            <div class="radio-group wrap">
+              <label class="choice"><input type="radio" name="existing_content" value="lots" /><span
+                  class="dot"></span>כן, יש לי הרבה</label>
+              <label class="choice"><input type="radio" name="existing_content" value="some" /><span
+                  class="dot"></span>יש קצת</label>
+              <label class="choice"><input type="radio" name="existing_content" value="none" /><span
+                  class="dot"></span>מתחיל מאפס</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>ספר סיפור הצלחה אמיתי של לקוח שלך — עם מספרים <span class="req">*</span></label>
+            <p class="hint">מה היה המצב לפני, מה עשינו יחד, מה התוצאה. ספציפי ככל האפשר — מספרים, זמן, שינוי קונקרטי.
+            </p>
+            <div class="example">אדיר הגיע עם 5% המרה — 1 סגירה מכל 20 שיחות. אחרי 2 חודשי ליווי הגיע ל-40,000 ₪ מכירות
+              בחודש בלי לשנות את ההצעה ובלי לתת הנחות אחת</div>
+            <textarea name="success_story" placeholder="ספר סיפור הצלחה אמיתי עם מספרים..." required></textarea>
+          </div>
+
+          <div class="field">
+            <label>מה אמרו לך לקוחות אחרי שעבדו איתך? <span class="req">*</span></label>
+            <p class="hint">העתק משפטים שלקוחות אמרו לך — בווצאפ, בזום, בהקלטה. מה אמרו בדיוק?</p>
+            <textarea name="reviews"
+              placeholder='"ליאב שינה לי את הגישה למכירות לחלוטין. תוך חודש הכפלתי את אחוזי הסגירה ובלי להרגיש שאני דוחף..."'
+              required></textarea>
+          </div>
+
+          <div class="field">
+            <label>דברים שאתה לא רוצה שיופיעו במודעות / תוכן</label>
+            <p class="hint">קווים אדומים, דברים שלא מייצגים אותך, סגנונות שאתה שונא אצל מתחרים.</p>
+            <textarea name="dont_do"
+              placeholder="לדוגמה: לא להבטיח הכנסות מוגזמות, לא להיראות מכירתי מדי, לא לשים מספרים שקריים..."></textarea>
+          </div>
+
+          <div class="field">
+            <label>יש משהו שחשוב לך שנדע לפני שמתחילים?</label>
+            <textarea name="extra_notes" placeholder="כל הערה, חשש, ציפייה, אילוץ, או בקשה מיוחדת..."></textarea>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════ -->
+        <!-- שליחה                                         -->
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="submit-sec">
+          <h2>מוכן לשלוח?</h2>
+          <p>ברגע שתשלח, המערכת שלנו תנתח את התשובות שלך, תריץ מחקר מתחרים, ותבנה עבורך אסטרטגיה שיווקית מלאה עם תסריטים
+            למודעות — תוך 48 שעות.</p>
+          <button type="submit" class="btn" id="submitBtn">שלח את השאלון ←</button>
+          <div class="status-msg" id="statusMsg"></div>
+        </div>
+
+    </form>
+
+    <div id="success-screen">
+      <div class="success-icon">✓</div>
+      <h2>קיבלנו!</h2>
+      <p>השאלון התקבל בהצלחה.<br />אנחנו מריצים מחקר מתחרים ובונים לך אסטרטגיה מלאה.<br />תשמע מאיתנו תוך 48 שעות.</p>
+    </div>
+
+  </div><!-- /container -->
+
+  <script>
+    // ─── Config ─────────────────────────────────────────
+    const WEBHOOK_URL = 'https://hook.eu2.make.com/tpsubrutquk3q4jif50nxuraql1u96w5'; // ← החלף ב-URL של ה-Webhook מ-Make.com
+
+    // ─── Budget slider ───────────────────────────────────
+    const slider = document.getElementById('budgetSlider');
+    const display = document.getElementById('budgetDisplay');
+    slider.addEventListener('input', () => {
+      display.textContent = `₪${parseInt(slider.value).toLocaleString('he-IL')} / חודש`;
+    });
+
+    // ─── Radio / checkbox visual ────────────────────────
+    document.querySelectorAll('.choice').forEach(item => {
+      const inp = item.querySelector('input');
+      if (!inp) return;
+
+      if (inp.type === 'radio') {
+        item.addEventListener('click', () => {
+          document.querySelectorAll(`.choice input[name="${inp.name}"]`).forEach(r => r.closest('.choice').classList.remove('selected'));
+          item.classList.add('selected');
+          inp.checked = true;
+          updateProgress();
+        });
+      } else if (inp.type === 'checkbox') {
+        item.addEventListener('click', () => {
+          item.classList.toggle('selected');
+          inp.checked = item.classList.contains('selected');
+          updateProgress();
+        });
+      }
+    });
+
+    // ─── Progress ────────────────────────────────────────
+    function updateProgress() {
+      const required = [...document.querySelectorAll('[required]')];
+      let filled = 0;
+      const counted = new Set();
+
+      required.forEach(f => {
+        if (f.type === 'radio') {
+          if (!counted.has(f.name)) {
+            counted.add(f.name);
+            if (document.querySelector(`input[name="${f.name}"]:checked`)) filled++;
+          }
+        } else {
+          if (f.value.trim()) filled++;
+        }
+      });
+
+      const total = required.reduce((acc, f) => {
+        if (f.type === 'radio') { if (!acc.names.has(f.name)) { acc.names.add(f.name); acc.count++; } } else { acc.count++; }
+        return acc;
+      }, { count: 0, names: new Set() }).count;
+
+      const pct = Math.min(Math.round((filled / total) * 100), 100);
+      document.getElementById('prog-bar').style.width = pct + '%';
+      document.getElementById('pct-label').textContent = pct + '% הושלם';
+    }
+
+    document.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select').forEach(el => {
+      el.addEventListener('input', updateProgress);
+    });
+
+    // ─── Submit ──────────────────────────────────────────
+    document.getElementById('mainForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const status = document.getElementById('statusMsg');
+
+      btn.disabled = true;
+      btn.textContent = 'שולח...';
+      status.className = 'status-msg sending';
+      status.textContent = '⏳ שולח את השאלון ומפעיל את מחקר המתחרים...';
+      status.style.display = 'block';
+
+      // Gather data
+      const fd = new FormData(e.target);
+      const data = { submitted_at: new Date().toISOString() };
+      fd.forEach((v, k) => {
+        if (data[k]) {
+          data[k] = Array.isArray(data[k]) ? [...data[k], v] : [data[k], v];
+        } else {
+          data[k] = v;
+        }
+      });
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok || res.status === 200) {
+          document.getElementById('mainForm').style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          throw new Error('status ' + res.status);
+        }
+      } catch (err) {
+        status.className = 'status-msg error';
+        status.textContent = '❌ שגיאה בשליחה. שלח לנו את הטופס ישירות לווצאפ.';
+        btn.disabled = false;
+        btn.textContent = 'שלח את השאלון ←';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+
+</html>
